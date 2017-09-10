@@ -135,6 +135,8 @@ export let log = new winston.Logger({
   ]
 });
 
+export let logTg = null;
+
 export const addTelegramLogger = function addTelegramLogger(telegramToken, telegramUserId) {
   if (!telegramToken || !telegramUserId) {
     return;
@@ -143,7 +145,7 @@ export const addTelegramLogger = function addTelegramLogger(telegramToken, teleg
   let customLogLevels = _.clone(winston.config.syslog.levels);
   delete customLogLevels.emerg;
   customLogLevels.report = 0;
-  return new (winston.Logger)({
+  logTg = new (winston.Logger)({
     levels: customLogLevels,
     exitOnError: function (err) {
       switch (err.context) {

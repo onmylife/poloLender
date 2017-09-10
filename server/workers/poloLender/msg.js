@@ -2,7 +2,7 @@ import moment from 'moment';
 import Finance from 'financejs';
 import Big from 'big.js';
 
-import { log } from '../../loggers';
+import { log, logTg } from '../../loggers';
 
 const finance = new Finance();
 
@@ -47,6 +47,7 @@ export const msgLoanReturned = function msgLoanReturned(element) {
   let msgHt = `${htHours}h ${htMin}m ${htSec}s`;
   msg = "Loan returned #" + canceledAC.id + " " + canceledAC.currency + " " + canceledAC.amount + " at " + msgRate(canceledAC.rate) + `, holding time: ${msgHt}`;
   log.info(msg);
+  logTg.report(msg);
 };
 
 export const msgNewCredit = function msgNewCredit(element, config) {
@@ -67,5 +68,7 @@ export const msgNewCredit = function msgNewCredit(element, config) {
   msg = "Loan taken    #" + newAC.id + " " + newAC.currency + " " + newAC.amount + " at " + msgRate(newAC.rate) + ", created " + newAC.createdAt.utcOffset(utcOffset).format("YYYY-MM-DD HH:mm");
   msg += ", expires " + expires;
   log.info(msg);
+  console.log("-----------------");
+  logTg.report(msg);
 };
 

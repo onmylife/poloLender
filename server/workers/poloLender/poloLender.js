@@ -10,7 +10,7 @@ import Poloniex from 'poloniex-api-node';
 import uniqid from 'uniqid';
 
 import { httpServerStart } from '../../httpServer';
-import { log, addTelegramLogger } from '../../loggers';
+import { log, logTg, addTelegramLogger } from '../../loggers';
 import { msgApy, msgLoanReturned, msgNewCredit, msgRate, strAR } from './msg';
 import { migrateConfig } from './dbMigrate';
 import { io } from '../../httpServer';
@@ -26,7 +26,6 @@ export const PoloLender = function(name) {
 	const self = this;
 	self.me = name;
 
-	let logTg = null;
 	let poloPrivate;
 	let socket;
 	let currencies = [];
@@ -831,7 +830,7 @@ export const PoloLender = function(name) {
             if (currentTelegramUserInfo.telegramUserId !== config.telegramReports.telegramUserId || currentTelegramUserInfo.telegramToken !== config.telegramReports.telegramToken) {
               currentTelegramUserInfo.telegramUserId = config.telegramReports.telegramUserId;
               currentTelegramUserInfo.telegramToken = config.telegramReports.telegramToken;
-              logTg = addTelegramLogger(config.telegramReports && config.telegramReports.telegramToken, config.telegramReports && config.telegramReports.telegramUserId);
+              addTelegramLogger(config.telegramReports && config.telegramReports.telegramToken, config.telegramReports && config.telegramReports.telegramUserId);
             }
 
             if (!config.isTradingEnabled && newConfig.isTradingEnabled) {
@@ -1073,7 +1072,7 @@ export const PoloLender = function(name) {
           poloPrivate = new Poloniex(currentApiKey.key, currentApiKey.secret, { socketTimeout: 60000 });
           setupBrowserComms();
           setupAdvisorComms();
-          logTg = addTelegramLogger(config.telegramReports && config.telegramReports.telegramToken, config.telegramReports && config.telegramReports.telegramUserId);
+          addTelegramLogger(config.telegramReports && config.telegramReports.telegramToken, config.telegramReports && config.telegramReports.telegramUserId);
           callback(null);
         },
       ],
