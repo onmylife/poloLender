@@ -45,7 +45,13 @@ export const msgLoanReturned = function msgLoanReturned(element) {
   let htMin = Math.floor((holdingTimeInSeconds - htHours * 60 *60) / 60);
   let htSec = holdingTimeInSeconds - htHours * 60 *60 - htMin * 60;
   let msgHt = `${htHours}h ${htMin}m ${htSec}s`;
-  msg = "Loan returned #" + canceledAC.id + " " + canceledAC.currency + " " + canceledAC.amount + " at " + msgRate(canceledAC.rate) + `, holding time: ${msgHt}`;
+  // msg = "Loan returned #" + canceledAC.id + " " + canceledAC.currency + " " + canceledAC.amount + " at " + msgRate(canceledAC.rate) + `, holding time: ${msgHt}`;
+
+  msg = "[" + newAC.createdAt.utcOffset(utcOffset).format("YYYY-MM-DD HH:mm:ss") + " #" + canceledAC.id + "] 대출상환 ";
+  msg += "금액 : " + canceledAC.amount + canceledAC.currency;
+  msg += ", 이율 : " + msgRate(canceledAC.rate);
+  msg += `, 기간 : ${msgHt}`;
+
   log.info(msg);
   logTg.report(msg);
 };
@@ -65,8 +71,12 @@ export const msgNewCredit = function msgNewCredit(element, config) {
     createdAt: createdAt,
     expires: expires
   };
-  msg = "Loan taken    #" + newAC.id + " " + newAC.currency + " " + newAC.amount + " at " + msgRate(newAC.rate) + ", created " + newAC.createdAt.utcOffset(utcOffset).format("YYYY-MM-DD HH:mm");
-  msg += ", expires " + expires;
+  // msg = "대출시작 #" + newAC.id + " " + newAC.currency + " " + newAC.amount + " at " + msgRate(newAC.rate) + ", created " + newAC.createdAt.utcOffset(utcOffset).format("YYYY-MM-DD HH:mm");
+  // msg += ", expires " + expires;
+  msg = "[" + newAC.createdAt.utcOffset(utcOffset).format("YYYY-MM-DD HH:mm:ss") + " #" + newAC.id + "] 대출실행 ";
+  msg += "금액 : " + newAC.amount + newAC.currency;
+  msg += ", 이율 : " + msgRate(newAC.rate);
+  msg += ", 기간 : " + expires;
   log.info(msg);
   console.log("-----------------");
   logTg.report(msg);
