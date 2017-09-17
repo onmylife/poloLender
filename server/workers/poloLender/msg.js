@@ -47,7 +47,7 @@ export const msgLoanReturned = function msgLoanReturned(element) {
   let msgHt = `${htHours}h ${htMin}m ${htSec}s`;
   // msg = "Loan returned #" + canceledAC.id + " " + canceledAC.currency + " " + canceledAC.amount + " at " + msgRate(canceledAC.rate) + `, holding time: ${msgHt}`;
 
-  msg = "[" + newAC.createdAt.utcOffset(utcOffset).format("YYYY-MM-DD HH:mm:ss") + " #" + canceledAC.id + "] 대출상환 ";
+  msg = "[" + canceledAC.createdAt.utcOffset(utcOffset).format("YYYY-MM-DD HH:mm:ss") + " #" + canceledAC.id + "] 대출상환 ";
   msg += "금액 : " + canceledAC.amount + canceledAC.currency;
   msg += ", 이율 : " + msgRate(canceledAC.rate);
   msg += `, 기간 : ${msgHt}`;
